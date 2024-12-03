@@ -1,11 +1,8 @@
-FROM ubuntu AS build
+FROM openjdk:8-jre-alpine
 
-RUN apt-get update && apt-get install -y golang-go
+EXPOSE 8080
 
-ENV GO111MODULE=off
+COPY ./build/libs/my-app-1.0-SNAPSHOT.jar /usr/app/
+WORKDIR /usr/app
 
-COPY . .
-
-RUN CGO_ENABLED=0 go build -o /app .
-
-ENTRYPOINT ["/app"]
+ENTRYPOINT ["java", "-jar", "my-app-1.0-SNAPSHOT.jar"]
